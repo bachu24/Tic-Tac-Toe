@@ -1,2 +1,2 @@
-# Tic-Tac-Toe
-py
+# Tic-Tac-Toe.py
+credit: CS Jackie (YouTube)
