@@ -18,10 +18,10 @@ board = [
     ]    
 
 
-font = pygame.font.Font('freesansbold.ttf', 32)
+font = pygame.font.Font('freesansbold.ttf', 100)
 text=font.render("",True,"green")
 textRect=text.get_rect()
-textRect.center=(WINDOW_WIDTH // 2 - PIXEL_WIDTH // 2, WINDOW_WIDTH // 2)
+textRect.center=(WINDOW_WIDTH //2 - PIXEL_WIDTH, WINDOW_WIDTH // 2)
 
 player1 = 0
 player2 = 1
@@ -50,12 +50,6 @@ def draw_icons():
                 screen.blit(iconX,(j*PIXEL_WIDTH,i*PIXEL_WIDTH))
             elif board[i][j] == 1:
                 screen.blit(iconO,(j*PIXEL_WIDTH,i*PIXEL_WIDTH))
-
-def has_equal_icons(elements, game_player):
-    for element in elements:
-        if element != game_player:
-            return False
-    return True
  
 def is_winner(board, player):
     for row in board:
@@ -69,6 +63,12 @@ def is_winner(board, player):
     if all([board[i][2-i] == player for i in range(3)]): ##diagonal
         return True
     return False
+
+def is_draw(board):
+    for row in board:
+        if None in row:
+            return False
+    return True
                  
 def check_victory():
     global text
@@ -78,9 +78,10 @@ def check_victory():
     if is_winner(board, player2):
         text=font.render("Player 2 wins",True,"green")
         return True
-    else :
-        text=font.render("Draw",True,"Red")
-        return False
+    if is_draw(board):
+        text=font.render("It's a Draw",True,"blue")
+        return True
+    return False
  
 def reset_game():
     global board, player
@@ -106,15 +107,15 @@ while running:
     screen.fill("white")
     
     screen.blit(grid,(0,0)) 
-    pygame.event.wait()
+    pygame.event.wait(500)
     play_turn(player)
     draw_icons()
     clock.tick(60)  # limits FPS to 60
     if check_victory():
         screen.blit(text,textRect)
-        pygame.time.wait(2000)  # Wait for 2 seconds
-        reset_game()
-    # screen.blit(iconX,(0,0))
-    # screen.blit(iconO,(WINDOW_WIDTH//3,WINDOW_WIDTH//3))
+         #to reset the game
+        #pygame.time.wait(1000) # Wait for 2 seconds
+        #reset_game()  
+  
     
 pygame.quit()
